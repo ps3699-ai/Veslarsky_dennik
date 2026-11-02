@@ -1,0 +1,16 @@
+{
+  "name": "Veslársky denník",
+  "short_name": "Denník",
+  "description": "Posilka, denný dotazník a tréningový plán",
+  "lang": "sk",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f2a3a",
+  "theme_color": "#0f2a3a",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

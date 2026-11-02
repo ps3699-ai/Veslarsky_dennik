@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-title" content="Denník">
 <meta name="theme-color" content="#0f2a3a">
 <title>Veslársky denník</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
@@ -33,9 +36,9 @@ h1{font:700 24px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;
 h1 span{color:var(--blade)}
 .iconbtn{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;
   font:600 14px var(--body);padding:6px 10px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;margin-top:12px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);margin-top:12px}
 .tabs button{background:none;border:0;color:rgba(255,255,255,.65);padding:10px 0 12px;
-  font:600 18px var(--display);letter-spacing:.06em;text-transform:uppercase;border-bottom:3px solid transparent}
+  font:600 17px var(--display);letter-spacing:.06em;text-transform:uppercase;border-bottom:3px solid transparent}
 .tabs button[aria-selected=true]{color:#fff;border-bottom-color:var(--blade)}
 main{max-width:560px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));display:grid;gap:16px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:16px}
@@ -97,6 +100,41 @@ input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--blade);o
 .ex .rx{font:600 17px var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ex .nt{grid-column:1/-1;font-size:13px;color:var(--muted)}
 .ex .dop button{margin-left:14px;width:calc(100% - 14px)}
+.share{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:14px}
+.done{display:grid;gap:6px;border-top:1px dashed var(--line);padding-top:12px}
+.done h3{margin:0;font:700 15px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.act{display:flex;justify-content:space-between;gap:10px;font-size:15px}
+.act b{font:600 17px var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.strava{display:inline-block;text-align:center;text-decoration:none;background:#fc4c02;color:#fff;border-radius:10px;padding:10px 14px;font:700 16px var(--display);letter-spacing:.06em;text-transform:uppercase}
+.week{display:grid;gap:4px;border-top:1px dashed var(--line);padding-top:12px}
+.week h3,.done h3{margin:0 0 4px}
+.wk summary{display:grid;grid-template-columns:30px minmax(0,1fr) 92px;gap:10px;align-items:center;cursor:pointer;list-style:none;padding:6px 4px;border-radius:8px}
+.wk summary::-webkit-details-marker{display:none}
+.wk.today summary{background:var(--bg)}
+.wk .d{font:700 16px var(--display);text-transform:uppercase;color:var(--muted)}
+.wk.today .d{color:var(--blade)}
+.wk .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px}
+.wk[open] .t{white-space:normal}
+.wk .more{padding:2px 4px 8px 44px;font-size:14px;display:grid;gap:4px;overflow-wrap:anywhere}
+.bar{position:relative;height:18px;border-radius:5px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ok);opacity:.85}
+.bar.mid i{background:var(--warn)} .bar.low i{background:var(--blade)}
+.bar span{position:relative;display:block;text-align:right;padding-right:5px;font:600 12px/16px var(--display);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.bar.future{border-style:dashed;background:none}
+.total{display:grid;gap:6px;margin-bottom:6px}
+.total .bar{height:24px}.total .bar span{font-size:14px;line-height:22px}
+.hist{display:grid;gap:12px}
+.histhead{display:flex;justify-content:space-between;align-items:center}
+.histhead h2{margin:0;font:700 22px var(--display);text-transform:uppercase;letter-spacing:.04em}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:8px}
+.day header{all:unset;display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:10px;align-items:center}
+.day h3{margin:0;font:700 18px var(--display);text-transform:uppercase;letter-spacing:.03em}
+.day .pl{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;border:1px solid var(--line);border-radius:99px;padding:2px 9px;font-variant-numeric:tabular-nums}
+.tag.warn{border-color:var(--warn);color:var(--warn)}
+.gl{font-size:14px;display:flex;justify-content:space-between;gap:8px}
+.gl b{font:600 15px var(--display);white-space:nowrap;font-variant-numeric:tabular-nums}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);width:min(520px,92vw)}
 dialog::backdrop{background:rgba(0,0,0,.45)}
 dialog form{display:grid;gap:14px}
@@ -111,7 +149,8 @@ dialog form{display:grid;gap:14px}
   </div>
   <nav class="tabs" role="tablist">
     <button role="tab" id="tab-posilka" aria-selected="true" data-view="posilka">Posilka</button>
-    <button role="tab" id="tab-dotaznik" aria-selected="false" data-view="dotaznik">Ako sa cítim</button>
+    <button role="tab" id="tab-dotaznik" aria-selected="false" data-view="dotaznik">Dotazník</button>
+    <button role="tab" id="tab-historia" aria-selected="false" data-view="historia">História</button>
   </nav>
 </header>
 
@@ -180,6 +219,11 @@ dialog form{display:grid;gap:14px}
     <button type="submit" class="primary">Odoslať dotazník</button>
   </form>
 
+  <section class="hist" id="historia" data-view="historia" hidden>
+    <div class="histhead"><h2>Posledné 3 týždne</h2><button type="button" class="refresh" id="histRefresh" aria-label="Načítať históriu znova">↻</button></div>
+    <div id="histList"><p class="muted">História sa načíta z tabuľky.</p></div>
+  </section>
+
   <section class="card log">
     <h2>Posledné záznamy</h2>
     <ul id="log"></ul>
@@ -189,12 +233,20 @@ dialog form{display:grid;gap:14px}
 <dialog id="settings">
   <form method="dialog" id="settingsForm">
     <h2 style="margin:0;font:700 22px var(--display);text-transform:uppercase;letter-spacing:.04em">Nastavenia</h2>
+    <div><label for="s-link">Odkaz od trénera <span class="hint">vlož a ulož, zvyšok sa vyplní sám</span></label>
+      <input id="s-link" placeholder="https://…#setup-…" autocomplete="off"></div>
     <div><label for="s-meno">Meno športovkyne</label><input id="s-meno" placeholder="napr. Lucia"></div>
     <div><label for="s-url">Adresa skriptu <span class="hint">Web app URL z Apps Script (končí /exec)</span></label>
       <input id="s-url" type="url" placeholder="https://…" autocomplete="off"></div>
     <div><label for="s-token">Kľúč <span class="hint">rovnaký ako TOKEN v skripte</span></label>
       <input id="s-token" autocomplete="off"></div>
     <button class="primary" value="save">Uložiť</button>
+    <div class="share">
+      <span class="lbl">Odkaz pre športovkyňu</span>
+      <p class="muted small">Pošli jej ho súkromne. Po otvorení sa appka v jej telefóne nastaví sama. Obsahuje kľúč, nikde ho nezverejňuj.</p>
+      <button type="button" class="ghost" id="copyLink">Skopírovať odkaz</button>
+      <input id="linkOut" readonly hidden aria-label="Odkaz na nastavenie">
+    </div>
   </form>
 </dialog>
 
@@ -209,13 +261,16 @@ dialog form{display:grid;gap:14px}
   const localStamp = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16).replace('T', ' '); };
   const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
   let cfg = store.get('cfg', { url: '', token: '', meno: '' });
-  let gymHas = false;
+  let gymHas = false, histLoaded = false;
 
   /* ---------- tabs ---------- */
   function show(view) {
     document.querySelectorAll('[role=tab]').forEach(t => t.setAttribute('aria-selected', t.dataset.view === view));
     document.querySelectorAll('form[data-view]').forEach(f => f.hidden = f.dataset.view !== view);
     $('#gymPlan').hidden = view !== 'posilka' || !gymHas;
+    $('#plan').hidden = view === 'historia';
+    $('#historia').hidden = view !== 'historia';
+    if (view === 'historia' && typeof loadHist === 'function' && !histLoaded) loadHist();
     store.set('view', view);
   }
   document.querySelectorAll('[role=tab]').forEach(t => t.onclick = () => show(t.dataset.view));
@@ -335,7 +390,7 @@ dialog form{display:grid;gap:14px}
       }
     }
     busy = false; render();
-    if (sent) toast(sent === 1 ? 'Zapísané do tabuľky.' : `Odoslaných ${sent} záznamov.`);
+    if (sent) { histLoaded = false; toast(sent === 1 ? 'Zapísané do tabuľky.' : `Odoslaných ${sent} záznamov.`); }
   }
 
   function render() {
@@ -382,9 +437,105 @@ dialog form{display:grid;gap:14px}
     if (p.f2) parts.push(`<div class="phase"><b>F2</b><p>${esc(p.f2)}</p></div>`);
     if (p.specifika) parts.push(`<p class="focus">${esc(p.specifika)}</p>`);
     if (p.cas_min) parts.push(`<span class="meta">${p.cas_min} min · ${(p.cas_min / 60).toFixed(1).replace('.', ',')} h</span>`);
-    $('#planBody').innerHTML = parts.length ? `<div style="display:grid;gap:10px">${parts.join('')}</div>`
-      : `<p class="muted">${p.harok ? 'Na dnes nie je nič zapísané.' : 'Tento týždeň ešte nie je v Exceli.'}</p>`;
+    $('#planBody').innerHTML = (parts.length ? `<div style="display:grid;gap:10px">${parts.join('')}</div>`
+      : `<p class="muted">${p.harok ? 'Na dnes nie je nič zapísané.' : 'Tento týždeň ešte nie je v tabuľke.'}</p>`) + renderDone(p) + renderWeek(p);
     renderGym(p);
+  }
+
+  // odtrénované dnes (zo Stravy) + pripojenie Stravy
+  function renderDone(p) {
+    const s = p.strava || {}, a = p.aktivity || [];
+    let h = '';
+    if (a.length) {
+      const sum = a.reduce((x, y) => x + y.min, 0);
+      h += `<div class="done"><h3>Odtrénované dnes · ${Math.round(sum)} min${p.cas_min ? ' z ' + p.cas_min : ''}</h3>` +
+        a.map(x => `<div class="act"><span>${esc(x.cas)} · ${esc(String(x.nazov || x.typ))}</span><b>${Math.round(x.min)} min${x.km >= 1 ? ' · ' + x.km.toFixed(1).replace('.', ',') + ' km' : ''}${x.tep ? ' · ♥ ' + x.tep : ''}</b></div>`).join('') + '</div>';
+    } else if (s.pripojena) {
+      h += `<div class="done"><h3>Odtrénované dnes</h3><p class="muted small">Zatiaľ nič zo Stravy. Aktivity sa načítajú do pár minút po synchronizácii hodiniek.</p></div>`;
+    }
+    if (s.nastavena && !s.pripojena && s.authUrl)
+      h += `<div class="done"><p class="muted small">Pripoj Stravu a tréningy z hodiniek sa budú zapisovať do tabuľky samé.</p>
+        <a class="strava" href="${esc(s.authUrl)}" target="_blank" rel="noopener">Pripojiť Stravu</a></div>`;
+    if (s.chyba) h += `<p class="muted small">${esc(s.chyba)}</p>`;
+    return h;
+  }
+
+  // bar splnenia: zelená ≥ 90 %, oranžová 50–90 %, červená < 50 %
+  function bar(done, plan, future, big) {
+    if (future || !plan) return `<div class="bar future"><span>${plan ? plan + ' min' : '–'}</span></div>`;
+    const pct = Math.round(done / plan * 100);
+    const cls = pct >= 90 ? '' : pct >= 50 ? 'mid' : 'low';
+    return `<div class="bar ${cls}" role="img" aria-label="Splnené ${pct} percent"><i style="width:${Math.min(pct, 100)}%"></i><span>${big ? `${done} / ${plan} min · ` : ''}${pct} %</span></div>`;
+  }
+  const kratko = d => ({ Pondelok: 'Po', Utorok: 'Ut', Streda: 'St', 'Štvrtok': 'Št', Piatok: 'Pi', Sobota: 'So', 'Nedeľa': 'Ne' }[d] || d.slice(0, 2));
+
+  function renderWeek(p) {
+    const dni = p.dni || [];
+    if (!dni.length) return '';
+    const t = p.datum, tracked = (p.strava && p.strava.pripojena) || dni.some(d => d.hotovo_min > 0);
+    let h = '<div class="week"><h3 class="eyebrow">Tento týždeň</h3>';
+    if (tracked) {
+      const doteraz = dni.filter(d => d.datum <= t);
+      const plan = doteraz.reduce((a, d) => a + (d.cas_min || 0), 0), done = doteraz.reduce((a, d) => a + (d.hotovo_min || 0), 0);
+      const celkom = dni.reduce((a, d) => a + (d.cas_min || 0), 0);
+      if (plan) h += `<div class="total"><span class="muted small">Splnenie doteraz · plán na celý týždeň ${celkom} min</span>${bar(done, plan, false, true)}</div>`;
+    }
+    h += dni.map(d => {
+      const future = d.datum > t, text = [d.f1, d.f2].filter(Boolean).join(' + ') || (d.cas_min ? '' : 'voľno');
+      const right = tracked ? bar(d.hotovo_min || 0, d.cas_min, future || !d.cas_min && !d.hotovo_min)
+        : `<span class="meta" style="text-align:right">${d.cas_min ? d.cas_min + ' min' : ''}</span>`;
+      return `<details class="wk${d.datum === t ? ' today' : ''}"><summary><span class="d">${kratko(d.den)}</span><span class="t">${esc(text)}</span>${right}</summary>
+        <div class="more">${d.f1 ? `<div><b>F1</b> ${esc(d.f1)}</div>` : ''}${d.f2 ? `<div><b>F2</b> ${esc(d.f2)}</div>` : ''}${d.specifika ? `<div class="muted">${esc(d.specifika)}</div>` : ''}
+        ${tracked && d.hotovo_min ? `<div class="muted">Odtrénované ${d.hotovo_min} min</div>` : ''}${!d.f1 && !d.f2 && !d.specifika ? '<div class="muted">Bez zápisu v pláne.</div>' : ''}</div></details>`;
+    }).join('');
+    return h + '</div>';
+  }
+
+  /* ---------- história ---------- */
+  async function loadHist() {
+    const cached = store.get('hist', null);
+    if (cached) renderHist(cached);
+    if (!cfg.url) { if (!cached) $('#histList').innerHTML = '<p class="muted">Najprv nastav adresu skriptu.</p>'; return; }
+    const btn = $('#histRefresh'); btn.classList.add('spin');
+    try {
+      const res = await fetch(cfg.url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify({ typ: 'historia', datum: today(), dni: 21, token: cfg.token }) });
+      const data = await res.json();
+      if (data.ok === false) throw new Error(data.error || 'História sa nenačítala.');
+      store.set('hist', data); renderHist(data); histLoaded = true;
+    } catch (err) {
+      if (!cached) $('#histList').innerHTML = `<p class="muted">${esc(err instanceof TypeError ? 'Bez spojenia, história sa nenačítala.' : err.message)}</p>`;
+      else toast('Zobrazená uložená história.');
+    } finally { btn.classList.remove('spin'); }
+  }
+  $('#histRefresh').onclick = () => loadHist();
+
+  function renderHist(h) {
+    const dni = (h.dni || []).filter(d => d.cas_min || d.hotovo_min || d.dotaznik || d.posilka.length || d.f1);
+    if (!dni.length) { $('#histList').innerHTML = '<p class="muted">Za posledné 3 týždne tu zatiaľ nič nie je.</p>'; return; }
+    const num = x => (x === '' || x == null) ? null : Number(x);
+    $('#histList').innerHTML = dni.map(d => {
+      const [, m, dd] = d.datum.split('-');
+      const q = d.dotaznik, tags = [];
+      if (q) {
+        const u = num(q.unava), sp = num(q.spanok_h), b = num(q.bolest_svalov);
+        if (u != null) tags.push(`<span class="tag${u >= 8 ? ' warn' : ''}">Únava ${u}/10</span>`);
+        if (sp != null) tags.push(`<span class="tag${sp < 6 ? ' warn' : ''}">Spánok ${String(sp).replace('.', ',')} h</span>`);
+        if (num(q.kvalita_spanku) != null) tags.push(`<span class="tag">Kvalita ${q.kvalita_spanku}/5</span>`);
+        if (b != null) tags.push(`<span class="tag${b >= 4 ? ' warn' : ''}">Bolesť ${b}/5</span>`);
+        if (num(q.stres) != null) tags.push(`<span class="tag">Stres ${q.stres}/5</span>`);
+        if (num(q.nalada) != null) tags.push(`<span class="tag">Nálada ${q.nalada}/5</span>`);
+      }
+      const plan = [d.f1, d.f2].filter(Boolean).join(' + ');
+      return `<article class="day">
+        <header><div><h3>${kratko(d.den)} ${+dd}. ${+m}.</h3>${plan ? `<div class="pl">${esc(plan)}</div>` : ''}</div>
+          ${d.cas_min ? bar(d.hotovo_min, d.cas_min, false) : d.hotovo_min ? `<span class="meta" style="text-align:right">${d.hotovo_min} min</span>` : ''}</header>
+        ${d.aktivity.map(a => `<div class="gl"><span>${esc(a.cas)} · ${esc(a.nazov)}</span><b>${a.min} min</b></div>`).join('')}
+        ${d.posilka.map(g => `<div class="gl"><span>${esc(g.cvik)}</span><b>${g.serie}×${g.max_kg ? ' · max ' + String(g.max_kg).replace('.', ',') + ' kg' : ''}</b></div>`).join('')}
+        ${tags.length ? `<div class="tags">${tags.join('')}</div>` : ''}
+        ${q && q.poznamka ? `<div class="pl">„${esc(q.poznamka)}“</div>` : ''}
+      </article>`;
+    }).join('');
   }
 
   // posilka: ktorú posilku spomína dnešný plán ("poska 2", "posilka3")
@@ -422,18 +573,47 @@ dialog form{display:grid;gap:14px}
     toast(kg ? 'Predvyplnené, uprav váhy.' : 'Predvyplnené, doplň váhy.');
   }
   $('#planRefresh').onclick = () => loadPlan();
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) loadPlan(); });
 
   /* ---------- nastavenia ---------- */
   const dlg = $('#settings');
   const openSettings = () => { $('#s-meno').value = cfg.meno; $('#s-url').value = cfg.url; $('#s-token').value = cfg.token; dlg.showModal(); };
   $('#openSettings').onclick = openSettings; $('#setupBtn').onclick = openSettings;
   $('#settingsForm').onsubmit = () => {
+    const link = $('#s-link').value.trim(), i = link.indexOf('#setup-');
+    if (i >= 0) {
+      try { const d = JSON.parse(b64d(link.slice(i + 7))); $('#s-url').value = d.u || ''; $('#s-token').value = d.k || ''; if (d.m) $('#s-meno').value = d.m; }
+      catch { toast('Odkaz je poškodený, skopíruj ho znova celý.'); }
+      $('#s-link').value = '';
+    }
     cfg = { meno: $('#s-meno').value.trim(), url: $('#s-url').value.trim(), token: $('#s-token').value.trim() };
     store.set('cfg', cfg); render(); flush(); loadPlan();
   };
 
   $('#retry').onclick = () => flush();
   window.addEventListener('online', () => flush());
+
+  // odkaz pre športovkyňu: #setup-<base64url(JSON)>; hash sa na server neposiela
+  const b64e = str => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const b64d = str => decodeURIComponent(escape(atob(str.replace(/-/g, '+').replace(/_/g, '/'))));
+  $('#copyLink').onclick = async () => {
+    const u = $('#s-url').value.trim(), k = $('#s-token').value.trim();
+    if (!u || !k) return toast('Najprv vyplň adresu skriptu a kľúč.');
+    const link = location.origin + location.pathname + '#setup-' + b64e(JSON.stringify({ u, k, m: $('#s-meno').value.trim() }));
+    const out = $('#linkOut'); out.value = link; out.hidden = false;
+    try { await navigator.clipboard.writeText(link); toast('Odkaz skopírovaný.'); }
+    catch { out.focus(); out.select(); toast('Označené, skopíruj ručne.'); }
+  };
+  if (location.hash.startsWith('#setup-')) {
+    try {
+      const d = JSON.parse(b64d(location.hash.slice(7)));
+      if (d.u && d.k) { cfg = { url: d.u, token: d.k, meno: d.m || cfg.meno || '' }; store.set('cfg', cfg); setTimeout(() => toast('Appka je nastavená.'), 300); }
+    } catch { setTimeout(() => toast('Odkaz na nastavenie je poškodený.'), 300); }
+    history.replaceState(null, '', location.pathname);
+  }
+
+  // inštalovateľná appka + offline
+  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 
   /* ---------- štart ---------- */
   $('#p-datum').value = today(); $('#d-datum').value = today();
